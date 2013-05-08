@@ -1,15 +1,8 @@
 /*
- # Editor : Phoebe
- # Date   : 2012.11.6
- # Ver    : 0.1
- # Product: Cherokey 4WD Mobile Platform
- # SKU    : RBO0102
-   
- # Description:     
- # Drive 2 motors with this Cherokey 4WD Mobile Platform  
- # Connect the D4,D5,D6,D7 to UNO digital 4,5,6,7
- 
+  # This is a basic rover project, just for fun.
+  # See it in action here : https://www.youtube.com/edit?video_id=AGPDNHpR9hc
 */
+
 #include <Servo.h> 
 
 int E1 = 5;     //M1 Speed Control
@@ -17,13 +10,14 @@ int E2 = 6;     //M2 Speed Control
 int M1 = 4;     //M1 Direction Control
 int M2 = 7;     //M1 Direction Control
 
-int sensorPin = 1;  //Sharp se  nsor pin
-int headServo = 9;
-int servoPos = 74;
-int servoDirection = 0;
-Servo myservo;
+int sensorPin = 1;  // Sharp sensor pin
+int headServo = 9;  // Head servo pin
+int servoPos = 74;  // Init servo in middle position
 
-boolean obstacle = false;
+int servoDirection = 0; // used to revert direction 0 or 1
+Servo myservo;          // head servo object
+
+boolean obstacle = false; // true when an obstacle is detected within a particular range
 
 void setup(void) 
 { 
@@ -36,9 +30,8 @@ void setup(void)
     pinMode(i, OUTPUT);  
   
   // init communication
-  Serial.begin(9600);
-  Serial1.begin(9600);      //Set Baud Rate
-  Serial1.println("Run keyboard control");
+  Serial.begin(9600);      // Communication via USB
+  Serial1.begin(9600);     // Communication via Bluetooth or whatever on Serial1
   
   // init pins
   digitalWrite(E1,LOW);   
@@ -50,9 +43,15 @@ void setup(void)
 void loop(void) 
 {
   if(!Listen()){ 
+    // if keyboard mode is not active
+    
+    // increment head rotation
     MoveHead();
+    
+    // explore algorythm
     Explore();
-    Serial.println("test...");
+    
+    // stability ??
     delay(1);
   }
 }

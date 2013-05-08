@@ -1,93 +1,95 @@
+/*
+    This code has been inspired by an article from Dominique Meurisse : http://arduino103.blogspot.fr/2011/06/detecteur-de-proximite-infrarouge-sharp.html
+*/
 
-float lectureTension(){
-  // Lecture de la valeur sur l'entrée analogique
-  // Retourne une valeur entre 0->1024 pour 0->5v
-  int valeur = analogRead(sensorPin);  
+float readVoltage(){
+  // Read voltage value
+  // Convert value between 0->1024 in voltage 0->5v
+  int val = analogRead(sensorPin);  
+  float voltage = val * 5.0;
+  voltage /= 1024.0; 
 
-  // Converti la lecture en tension
-  float tension = valeur * 5.0;
-  tension /= 1024.0; 
-
-  return tension;
+  return voltage;
 }
 
-// Tableaux qui permettent de convertir la tension en distance approximative.
-//
+// Basic tab conversion between voltage and distance
 float sharpVoltage[] = { 
   3.1, 2.5, 1.84, 1.42, 1.15, 1, 0.85, 0.73, 0.5, 0.4, 0.3 };     
 int sharpCms[] = { 
   5, 10, 15, 20, 25, 30, 40, 50, 60, 70, 80 };
 
 //Description:
-//  Lecture de la tension sur l'entrée analogique 
-//  et determination de la distance approximative
+//  Read voltage on analogic pin and determine distance 
 //
 //Returns:
-//  Index superieur (du tableau) dans lequel se situe la mesure.
-//  Par exemple, si l'index retourné est 2, la tension du capteur se situe
-//    entre les positions 1 et 2 (soit <=2.3v et >1.7v).
-//  La distance est donc située entre 10 et 15 cm.
+//  Above tab index corresponding to distance givng an approximate range
 //
+
 int distanceIndex(){
-  float tension = lectureTension();
-  // si tension inférieur à 0.3v on est soit très loin, soit très près
-  // Donc la distance est considérée comme inconnue
-  if( tension < 0.3 )
+  float voltage = readVoltage();
+  
+  // if voltage is < 0.3, it is difficult to know if distance is very low or far, we return an unknown value
+  if( voltage < 0.3 )
     return -1;
-  // Localiser la position dans le tableau OU la tension
-  // lue sur le senseur est plus grande que la valeur du tableau
-  // de référence
+    
+  // Return corresponding index
   int index = 0;
-  while( sharpVoltage[index] > tension ){
+  while( sharpVoltage[index] > voltage ){
     index++;
-    // Si on sort du tableau, la distance est inconnue!
+    // if value is above range, we return an unknown value
     if( index == 11 )
       return -1;
   }
   return index;
 }
 
+
 //Description:
-//  Retourne une evaluation de la distance sous forme d'une
-//  chaine de caractères.
+//  return a string providing distance information
 String distanceRange(){
   int idx = distanceIndex();
   if( idx == -1 )
-    return "Inconnu";
+    return "Unknown";
   if( idx == 0 ) {       
     return "<= "+String(int(sharpCms[idx]));
   }
   return String(int(sharpCms[idx-1]))+"> x <="+String(int(sharpCms[idx]));
 }
 
+
 void Explore(){
 
-  // lecture de la distance
+  // read distance index
   int idx = distanceIndex();
 
-  // print out the value you read:
-  Serial.println(idx);
-  delay(1);        // delay in between reads for stability
 
+  // if distance outside 5 - 20 cm range
   if(idx>4 || idx<0){
     obstacle = false;
     advance (100,100); 
   }
   else{
     
-    // too close
-    if(idx<=2){
+    // too close, distance < 15 cm
+    if(idx<=1){
       back_off (100,100);
     }
     // ok turn
     else{
+      
       obstacle = true;
+      
+      // turn depending on servo middle position (here 74)
       if(servoPos > 74){
         turn_R (200,200); 
+        
+        // force servo to turn in the direction of the obstacle
         servoDirection = 0;
       }
       else{
         turn_L (200,200);
+     
+        // force servo to turn in the direction of the obstacle
         servoDirection = 1;
       }
     }

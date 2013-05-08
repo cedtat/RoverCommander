@@ -1,3 +1,9 @@
+/*
+  # This script is listening to keyboard on Serial1
+  # Before sending navigation command you must stop roaming mode with 'x'
+  # To enter back in romaing mode, send 'r'
+*/
+
 boolean listening = false ;
 
 boolean Listen(){

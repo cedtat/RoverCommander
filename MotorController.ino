@@ -1,3 +1,6 @@
+/*
+  # This script has been inspired by DFRobot Sample : http://www.dfrobot.com/wiki/index.php/Cherokey_4WD_Mobile_Platform_(SKU:ROB0102)
+*/
 
 void stop(void)                    //Stop
 {
