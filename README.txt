@@ -2,6 +2,8 @@ This project is aiming to develop a 4WD rover able to roam in any condition insi
 A distance sensor is mounted on a servo to create a head.
 The main behavior of the robot is to go straigth forward until it sees an obstacle.
 
+HELP me enhanced this robot behavior !
+
 Check this video : https://www.youtube.com/edit?video_id=AGPDNHpR9hc
 
 Hardware
