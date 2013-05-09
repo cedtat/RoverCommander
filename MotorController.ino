@@ -1,7 +1,22 @@
 /*
   # This script has been inspired by DFRobot Sample : http://www.dfrobot.com/wiki/index.php/Cherokey_4WD_Mobile_Platform_(SKU:ROB0102)
 */
+int E1 = 5;     //M1 Speed Control
+int E2 = 6;     //M2 Speed Control
+int M1 = 4;     //M1 Direction Control
+int M2 = 7;     //M1 Direction Control
 
+void initMotor(){
+  // init motors
+  int i;
+  for(i=4;i<=7;i++)
+    pinMode(i, OUTPUT);  
+    
+  // init pins
+  digitalWrite(E1,LOW);   
+  digitalWrite(E2,LOW); 
+}
+  
 void stop(void)                    //Stop
 {
   digitalWrite(E1,0); 
