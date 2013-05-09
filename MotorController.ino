@@ -1,10 +1,12 @@
 /*
   # This script has been inspired by DFRobot Sample : http://www.dfrobot.com/wiki/index.php/Cherokey_4WD_Mobile_Platform_(SKU:ROB0102)
+  
+  # this script is distributed under Creative Commons Attribution-ShareAlike 3.0 License
 */
-int E1 = 5;     //M1 Speed Control
-int E2 = 6;     //M2 Speed Control
-int M1 = 4;     //M1 Direction Control
-int M2 = 7;     //M1 Direction Control
+const int E1 = 5;     //M1 Speed Control
+const int E2 = 6;     //M2 Speed Control
+const int M1 = 4;     //M1 Direction Control
+const int M2 = 7;     //M1 Direction Control
 
 void initMotor(){
   // init motors

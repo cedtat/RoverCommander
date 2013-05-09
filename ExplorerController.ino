@@ -1,7 +1,9 @@
 /*
-    This code has been inspired by an article from Dominique Meurisse : http://arduino103.blogspot.fr/2011/06/detecteur-de-proximite-infrarouge-sharp.html
+  # This code has been inspired by an article from Dominique Meurisse : http://arduino103.blogspot.fr/2011/06/detecteur-de-proximite-infrarouge-sharp.html
+  #
+  # this script is distributed under Creative Commons Attribution-ShareAlike 3.0 License
 */
-int sensorPin = 1;       // Sharp sensor pin
+const int sensorPin = 1;       // Sharp sensor pin
 
 float readVoltage(){
   // Read voltage value
@@ -81,7 +83,7 @@ void Explore(){
       obstacle = true;
       
       // turn depending on servo middle position (here 74)
-      if(GetPosition() > 74){
+      if(GetPosition() > GetMiddlePosition()){
         turn_R (200,200); 
         
         // force servo to turn in the direction of the obstacle

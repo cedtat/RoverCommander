@@ -2,6 +2,8 @@
   # This script is listening to keyboard on Serial1
   # Before sending navigation command you must stop roaming mode with 'x'
   # To enter back in romaing mode, send 'r'
+  
+  # this script is distributed under Creative Commons Attribution-ShareAlike 3.0 License
 */
 
 boolean listening = false ;
